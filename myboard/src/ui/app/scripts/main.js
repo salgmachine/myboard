@@ -1,1 +1,1 @@
-var app = angular.module('MyBoard', []);
+var app = angular.module('MyBoard', ['ngResource']);
