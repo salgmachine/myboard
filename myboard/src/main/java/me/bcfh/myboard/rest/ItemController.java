@@ -29,7 +29,7 @@ public class ItemController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> get(@PathVariable Long id) {
 	if (id == null)
-	    return new ResponseEntity<ErrorDto>(new ErrorDto("Id missing"), HttpStatus.BAD_REQUEST);
+	    return new ResponseEntity<ErrorDto>(new ErrorDto("Data missing"), HttpStatus.BAD_REQUEST);
 	Item itm = itemRepo.findOne(id);
 	if (itm == null)
 	    return new ResponseEntity<ErrorDto>(new ErrorDto("Item not found"), HttpStatus.NOT_FOUND);
@@ -46,12 +46,17 @@ public class ItemController {
     @Transactional
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> create(Item item) {
-	return new ResponseEntity<>(HttpStatus.OK);
+	if (item == null)
+	    return new ResponseEntity<ErrorDto>(new ErrorDto("Data missing"), HttpStatus.BAD_REQUEST);
+	item = itemRepo.saveAndFlush(item);
+	return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @Transactional
     @RequestMapping(method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> delete(@RequestParam(name = "id", required = true) Long id) {
+	if (id == null)
+	    return new ResponseEntity<ErrorDto>(new ErrorDto("Data missing"), HttpStatus.BAD_REQUEST);
 	Item itm = itemRepo.findOne(id);
 	if (itm == null)
 	    return new ResponseEntity<ErrorDto>(new ErrorDto("Item not found"), HttpStatus.NOT_FOUND);
@@ -62,12 +67,14 @@ public class ItemController {
     @Transactional
     @RequestMapping(method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> update(@RequestBody Item item) {
+	if (item == null)
+	    return new ResponseEntity<ErrorDto>(new ErrorDto("Data missing"), HttpStatus.BAD_REQUEST);
 	if (item.getId() == null)
 	    return new ResponseEntity<ErrorDto>(new ErrorDto("Id missing"), HttpStatus.BAD_REQUEST);
 	Item itm = itemRepo.findOne(item.getId());
 	if (itm == null)
 	    return new ResponseEntity<ErrorDto>(new ErrorDto("Item not found"), HttpStatus.NOT_FOUND);
-	itm = itemRepo.saveAndFlush(itm);
+	itm = itemRepo.saveAndFlush(item);
 	return new ResponseEntity<>(itm, HttpStatus.OK);
     }
 

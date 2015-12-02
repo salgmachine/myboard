@@ -94,6 +94,22 @@ public class Item {
 	this.effort = effort;
     }
 
+    public Long getCreatedAt() {
+	return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+	this.createdAt = createdAt;
+    }
+
+    public Long getModifiedAt() {
+	return modifiedAt;
+    }
+
+    public void setModifiedAt(Long modifiedAt) {
+	this.modifiedAt = modifiedAt;
+    }
+
     @Override
     public int hashCode() {
 	final int prime = 31;

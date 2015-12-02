@@ -32,6 +32,19 @@ public class DataSourceConfig {
 		dataSourceBuilder.url("jdbc:sqlite:" + toDb.toFile().getAbsolutePath());
 		return dataSourceBuilder.build();
 	}
+	
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
+			JpaVendorAdapter jpaVendorAdapter) {
+		LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
+		lef.setDataSource(dataSource);
+		lef.setJpaVendorAdapter(jpaVendorAdapter);
+		lef.setPackagesToScan(Item.class.getPackage().getName());
+		lef.getJpaPropertyMap().put("hibernate.search.default.directory_provider", "filesystem");
+		lef.getJpaPropertyMap().put("hibernate.search.default.indexBase",
+				config.getFulltextIndexDirectory().toFile().getAbsolutePath());
+		return lef;
+	}
 
 	@Bean
 	public JpaVendorAdapter jpaVendorAdapter() {
@@ -46,17 +59,5 @@ public class DataSourceConfig {
 	public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
 		return new JpaTransactionManager(entityManagerFactory);
 	}
-
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
-			JpaVendorAdapter jpaVendorAdapter) {
-		LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
-		lef.setDataSource(dataSource);
-		lef.setJpaVendorAdapter(jpaVendorAdapter);
-		lef.setPackagesToScan(Item.class.getPackage().getName());
-		lef.getJpaPropertyMap().put("hibernate.search.default.directory_provider", "filesystem");
-		lef.getJpaPropertyMap().put("hibernate.search.default.indexBase",
-				config.getFulltextIndexDirectory().toFile().getAbsolutePath());
-		return lef;
-	}
+	
 }
