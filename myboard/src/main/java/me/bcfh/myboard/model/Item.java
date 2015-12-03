@@ -41,10 +41,16 @@ public class Item {
     private Float effort;
 
     @Column
+    private Integer index;
+
+    @Column
     private Long createdAt;
 
     @Column
     private Long modifiedAt;
+
+    @Column
+    private Integer state;
 
     public Long getId() {
 	return id;
@@ -52,6 +58,14 @@ public class Item {
 
     public void setId(Long id) {
 	this.id = id;
+    }
+
+    public Integer getState() {
+	return state;
+    }
+
+    public void setState(Integer state) {
+	this.state = state;
     }
 
     public String getTitle() {
@@ -108,6 +122,14 @@ public class Item {
 
     public void setModifiedAt(Long modifiedAt) {
 	this.modifiedAt = modifiedAt;
+    }
+
+    public Integer getIndex() {
+	return index;
+    }
+
+    public void setIndex(Integer index) {
+	this.index = index;
     }
 
     @Override

@@ -13,6 +13,10 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  var proxyMiddleware = require('http-proxy-middleware');
+
+  var proxy = proxyMiddleware('/items', {target: 'http://localhost:8080', changeOrigin: true});
+
   // Automatically load required grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin'
@@ -71,6 +75,7 @@ module.exports = function (grunt) {
           ],
           port: 9000,
           server: {
+            middleware: [proxy],
             baseDir: ['.tmp', config.app],
             routes: {
               '/bower_components': './bower_components'

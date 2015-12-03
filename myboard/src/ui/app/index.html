@@ -1,89 +1,140 @@
 <!doctype html>
 <html class="no-js" lang="" ng-app="MyBoard">
-  <head>
-    <meta charset="utf-8">
-    <title>ui</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="utf-8">
+  <title>ui</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
-    <script src="/bower_components/angular/angular.js"></script>
-  </head>
-  <body >
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/board/column.css">
+  <link rel="stylesheet" href="styles/board/dialog.css">
+  <!-- endbuild -->
+  <!-- build:js scripts/vendor/modernizr.js -->
+  <script src="/bower_components/modernizr/modernizr.js"></script>
+  <!-- endbuild -->
+  <script src="/bower_components/angular/angular.js"></script>
+</head>
+<body>
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
+<![endif]-->
 
+<div class="dialog-parent">
 
-    <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">ui</h3>
+</div>
+<div class="container" ng-controller="MainController">
+  <div class="header">
+    <ul class="nav nav-pills pull-right">
+      <li>
+        <button type="button" class="btn btn-default" ng-class="{'btn-primary':board.backlog.config.visible}" ng-click="toggleBacklog()">Backlog</button>
+      </li>
+      <li>
+        <button type="button" class="btn btn-default" ng-class="{'btn-primary':board.release.config.visible}" ng-click="toggleRelease()">Release</button>
+      </li>
+    </ul>
+    <h3 class="text-muted">MyKanban - Poor man's kanban board</h3>
+  </div>
+  <!--
+
+    <div class="jumbotron">
+      <h1>'Allo, 'Allo!</h1>
+
+      <p class="lead">Always a pleasure scaffolding your apps.</p>
+
+      <p><a class="btn btn-lg btn-success" href="#">Splendid! <span class="glyphicon glyphicon-ok"></span></a></p>
+    </div>
+  -->
+  <div class="row marketing">
+    <div class="col-lg-2 board-column" ng-show="board.backlog.config.visible">
+      <div class="board-column-title"><p>Backlog</p>
+        <button type="button" class="btn btn-primary">Add</button>
       </div>
-
-      <div class="jumbotron">
-        <h1>'Allo, 'Allo!</h1>
-        <p class="lead">Always a pleasure scaffolding your apps.</p>
-        <p><a class="btn btn-lg btn-success" href="#">Splendid! <span class="glyphicon glyphicon-ok"></span></a></p>
-      </div>
-
-      <div class="row marketing">
-        <div class="col-lg-6" ng-controller="MainController as ctrl">
-          {{ctrl.test}}
-        </div>
-      </div>
-
+      <ul>
+        <li ng-repeat="itm in board.backlog.items"></li>
+      </ul>
     </div>
 
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/angular-resource/angular-resource.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
+    <div class="col-lg-3 board-column">
+      <div class="board-column-title"><p class="pull-left">Todo<br/><span>($: 12 , h:12)</span></p>
+        <button type="button" class="btn btn-primary pull-right board-column-add-btn">+</button>
+      </div>
+      <ul>
+        <li ng-repeat="itm in board.todo.items"></li>
+      </ul>
+    </div>
+
+    <div class="board-column"
+         ng-class="{'col-lg-3': board.release.config.visible || board.backlog.config.visible, 'col-lg-6': !board.release.config.visible && !board.backlog.config.visible}">
+      <div class="board-column-title"><p class="pull-left">Busy<br/><span>($: 12 , h:12)</span></p>
+        <button type="button" class="btn btn-primary pull-right board-column-add-btn">+</button>
+      </div>
+      <ul>
+        <li ng-repeat="itm in board.busy.items"></li>
+      </ul>
+    </div>
+
+    <div class="col-lg-3 board-column">
+      <div class="board-column-title"><p class="pull-left">Done<br/><span>($: 12 , h:12)</span></p>
+      </div>
+      <ul>
+        <li ng-repeat="itm in board.done.items"></li>
+      </ul>
+    </div>
+
+    <div class="col-lg-1 board-column" ng-show="board.release.config.visible">
+      <div class="board-column-title"><p>Released</p>
+      </div>
+      <ul>
+        <li ng-repeat="itm in board.release.items"></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
 
 
-    <!-- build:js(.) scripts/plugins.js -->
-    <script src="/bower_components/bootstrap/js/affix.js"></script>
-    <script src="/bower_components/bootstrap/js/alert.js"></script>
-    <script src="/bower_components/bootstrap/js/dropdown.js"></script>
-    <script src="/bower_components/bootstrap/js/tooltip.js"></script>
-    <script src="/bower_components/bootstrap/js/modal.js"></script>
-    <script src="/bower_components/bootstrap/js/transition.js"></script>
-    <script src="/bower_components/bootstrap/js/button.js"></script>
-    <script src="/bower_components/bootstrap/js/popover.js"></script>
-    <script src="/bower_components/bootstrap/js/carousel.js"></script>
-    <script src="/bower_components/bootstrap/js/scrollspy.js"></script>
-    <script src="/bower_components/bootstrap/js/collapse.js"></script>
-    <script src="/bower_components/bootstrap/js/tab.js"></script>
-    <!-- endbuild -->
+<!-- build:js(.) scripts/plugins.js -->
+<script src="/bower_components/bootstrap/js/affix.js"></script>
+<script src="/bower_components/bootstrap/js/alert.js"></script>
+<script src="/bower_components/bootstrap/js/dropdown.js"></script>
+<script src="/bower_components/bootstrap/js/tooltip.js"></script>
+<script src="/bower_components/bootstrap/js/modal.js"></script>
+<script src="/bower_components/bootstrap/js/transition.js"></script>
+<script src="/bower_components/bootstrap/js/button.js"></script>
+<script src="/bower_components/bootstrap/js/popover.js"></script>
+<script src="/bower_components/bootstrap/js/carousel.js"></script>
+<script src="/bower_components/bootstrap/js/scrollspy.js"></script>
+<script src="/bower_components/bootstrap/js/collapse.js"></script>
+<script src="/bower_components/bootstrap/js/tab.js"></script>
+<!-- endbuild -->
 
 
-    <!-- build:js scripts/main.js -->
+<!-- build:js scripts/main.js -->
 
-    <script src="/bower_components/angular-resource/angular-resource.js"></script>
-    <script src="scripts/main.js"></script>
-    <script src="scripts/item/item.controller.js"></script>
-    <script src="scripts/item/item.service.js"></script>
-    <!-- endbuild -->
+<script src="/bower_components/angular-resource/angular-resource.js"></script>
+<script src="scripts/main.js"></script>
+<script src="scripts/item/item.controller.js"></script>
+<script src="scripts/item/item.resource.js"></script>
+<script src="scripts/item/item.service.js"></script>
+<!-- endbuild -->
 
-  </body>
+</body>
 </html>

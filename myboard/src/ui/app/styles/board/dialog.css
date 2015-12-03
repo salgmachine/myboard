@@ -1,0 +1,15 @@
+.dialog-parent {
+  width: 100%;
+  height: 500px;
+  border: 1px dotted lightgray;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  display:none;
+  -webkit-box-shadow: 1px 18px 18px -13px rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 18px 18px -13px rgba(0,0,0,0.75);
+  box-shadow: 1px 18px 18px -13px rgba(0,0,0,0.75);
+
+}

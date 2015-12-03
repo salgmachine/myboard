@@ -38,7 +38,7 @@ public class ItemController {
     }
 
     @Transactional
-    @RequestMapping(method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Item>> get() {
 	return new ResponseEntity<>(itemRepo.findAll(), HttpStatus.OK);
     }
