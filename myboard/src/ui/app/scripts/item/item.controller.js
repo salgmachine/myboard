@@ -1,18 +1,40 @@
 var app = angular.module('MyBoard');
 
-app.controller('MainController', function ($scope, Items, ItemService) {
-  $scope.board = ItemService.board;
+app.controller('MainController', function ($scope, Items, ItemService, BoardService, ItemDetailService, hotkeys) {
+  $scope.board = BoardService.board;
 
-  $scope.toggleBacklog = function () {
-    var state = $scope.board.backlog.config.visible;
-    $scope.board.backlog.config.visible = !state;
+  hotkeys.bindTo($scope)
+    .add({
+      combo: 'esc',
+      description: 'Closes the item overlay',
+      callback: function () {
+        $scope.isDialogVisible = false;
+      }
+    });
+
+  $scope.toggle = function (column) {
+    var state = column.config.visible;
+    column.config.visible = !state;
     console.log('toggleBacklog');
   };
 
-  $scope.toggleRelease = function () {
-    var state = $scope.board.release.config.visible;
-    $scope.board.release.config.visible = !state;
-    console.log('toggleRelease');
+  $scope.showDialog = function (mode) {
+    $scope.isDialogVisible = true;
+    var item = ItemService.makeNewItem();
+    switch (mode) {
+      case 'backlog':
+        item.state = 0;
+        break;
+      case 'todo':
+        item.state = 1;
+        break;
+      case 'busy':
+        item.state = 2;
+      default:
+        break;
+    }
+    $scope.item = item;
+
   };
 
   var items = Items.query(function () {
