@@ -1,9 +1,13 @@
 package me.bcfh.myboard.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -41,7 +45,7 @@ public class Item {
     private Float effort;
 
     @Column
-    private Integer index;
+    private Integer verticalIndex;
 
     @Column
     private Long createdAt;
@@ -51,6 +55,10 @@ public class Item {
 
     @Column
     private Integer state;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private Board board;
 
     public Long getId() {
 	return id;
@@ -124,12 +132,12 @@ public class Item {
 	this.modifiedAt = modifiedAt;
     }
 
-    public Integer getIndex() {
-	return index;
+    public Integer getVerticalIndex() {
+	return verticalIndex;
     }
 
-    public void setIndex(Integer index) {
-	this.index = index;
+    public void setVerticalIndex(Integer verticalIndex) {
+	this.verticalIndex = verticalIndex;
     }
 
     @Override
