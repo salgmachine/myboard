@@ -3,6 +3,30 @@ var app = angular.module('MyBoard');
 app.controller('MainController', function ($scope, Items, ItemService, BoardService, ItemDetailService, hotkeys) {
   $scope.board = BoardService.board;
 
+  $scope.dialog = {
+    showDialog: function (mode) {
+      $scope.isDialogVisible = true;
+      var item = ItemService.makeNewItem();
+      switch (mode) {
+        case 'backlog':
+          item.state = 0;
+          break;
+        case 'todo':
+          item.state = 1;
+          break;
+        case 'busy':
+          item.state = 2;
+        default:
+          break;
+      }
+      $scope.item = item;
+
+    },
+    hideDialog: function (){
+      $scope.isDialogVisible = false;
+    }
+  };
+
   hotkeys.bindTo($scope)
     .add({
       combo: 'esc',
@@ -16,25 +40,6 @@ app.controller('MainController', function ($scope, Items, ItemService, BoardServ
     var state = column.config.visible;
     column.config.visible = !state;
     console.log('toggleBacklog');
-  };
-
-  $scope.showDialog = function (mode) {
-    $scope.isDialogVisible = true;
-    var item = ItemService.makeNewItem();
-    switch (mode) {
-      case 'backlog':
-        item.state = 0;
-        break;
-      case 'todo':
-        item.state = 1;
-        break;
-      case 'busy':
-        item.state = 2;
-      default:
-        break;
-    }
-    $scope.item = item;
-
   };
 
   var items = Items.query(function () {

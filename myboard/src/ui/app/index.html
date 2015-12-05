@@ -21,7 +21,9 @@
   <!-- build:css(.tmp) styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/board/column.css">
-  <link rel="stylesheet" href="styles/board/dialog.css">
+  <link rel="stylesheet" href="styles/board/dialog/item.data.css">
+  <link rel="stylesheet" href="styles/board/dialog/item.editor.css">
+  <link rel="stylesheet" href="styles/board/dialog/global.css">
   <!-- endbuild -->
   <!-- build:js scripts/vendor/modernizr.js -->
   <script src="/bower_components/modernizr/modernizr.js"></script>
@@ -36,12 +38,18 @@
 
 <div id="item-dialog"
      ng-class="{'dialog-parent':isDialogVisible, 'dialog-parent dialog-parent-hidden':!isDialogVisible}">
-  <div class="dialog-content row" >
+  <div class="dialog-content row">
     <div class="col-lg-offset-3 col-lg-6 col-lg-offset-3">
-      <text-angular ng-model="item.text"></text-angular>
-      <input type="text" placeholder="Name" class="form-control item-data-input-name">
-      <input type="text" placeholder="Aufwand" class="form-control item-data-input-number">
-      <input type="text" placeholder="Komplexität" class="form-control item-data-input-number">
+      <div class="pull-left item-data-btn-bar" >
+        <button type="button" class="item-data-btn item-data-btn-top btn btn-default"><span class="glyphicon glyphicon-ok"></span></button>
+        <button type="button" class="item-data-btn btn btn-default" ng-click="dialog.hideDialog()"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+      <div class="pull-right">
+        <text-angular ng-model="item.text"></text-angular>
+        <input type="text" placeholder="Name" class="form-control item-data-input item-data-input-name">
+        <input type="text" placeholder="Aufwand" class="form-control item-data-input item-data-input-number">
+        <input type="text" placeholder="Komplexität" class="form-control item-data-input item-data-input-number">
+      </div>
     </div>
   </div>
 </div>
@@ -83,7 +91,8 @@
 
     <div class="col-lg-3 board-column">
       <div class="board-column-title"><p class="pull-left">Todo<br/><span>($: 12 , h:12)</span></p>
-        <button type="button" class="btn btn-primary pull-right board-column-add-btn" ng-click="showDialog('todo')">+
+        <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="dialog.showDialog('todo')">
+          <span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
       <ul>
@@ -94,7 +103,8 @@
     <div class="board-column"
          ng-class="{'col-lg-3': board.release.config.visible || board.backlog.config.visible, 'col-lg-6': !board.release.config.visible && !board.backlog.config.visible}">
       <div class="board-column-title"><p class="pull-left">Busy<br/><span>($: 12 , h:12)</span></p>
-        <button type="button" class="btn btn-primary pull-right board-column-add-btn" ng-click="showDialog('busy')">+
+        <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="dialog.showDialog('busy')">
+          <span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
       <ul>

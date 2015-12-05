@@ -8,5 +8,16 @@
 }
 
 .board-column-add-btn {
+  background-color: #c8c8c8;
+  border-color: #c8c8c8;
+}
 
+.board-column-add-btn:hover {
+  background-color: #b4b3b3;
+  border-color: #b4b3b3;
+}
+
+.board-column-add-btn.btn.btn-primary:active:focus{
+  background-color: #dedede;
+  border-color: #dedede;
 }

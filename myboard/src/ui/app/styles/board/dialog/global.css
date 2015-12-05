@@ -15,26 +15,7 @@
 .dialog-parent-hidden {
   display:none;
 }
-.ta-editor.ta-html, .ta-scroll-window.form-control {
-  width: 756px;
-}
-
-.ta-toolbar.btn-toolbar {
-  margin-bottom: 5px;
-}
-
-.item-data-input-number {
-  margin-top: 15px;
-  width: 150px;
-  display: inline;
-}
-
-.item-data-input-name {
-  margin-top: 15px;
-  width: 448px;
-  display: inline;
-}
-
 .dialog-content {
   margin-top: 40px;
 }
+

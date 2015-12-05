@@ -1,0 +1,27 @@
+.item-data-btn {
+  font-size: 28px;
+  padding-top: 11px;
+}
+
+
+.item-data-btn-top {
+  margin-bottom: 5px;
+}
+
+.item-data-btn-bar {
+  width: 40px;
+  margin-top: 40px;
+}
+
+.item-data-input {
+  margin-top: 5px;
+  display: inline;
+}
+
+.item-data-input-number {
+  width: 150px;
+}
+
+.item-data-input-name {
+  width: 448px;
+}
