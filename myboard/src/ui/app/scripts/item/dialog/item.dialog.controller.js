@@ -1,5 +1,7 @@
 var app = angular.module('MyBoard');
-app.controller('ItemDialogController', function($scope, taOptions, hotkeys, ItemService, ItemDialogService){
+app.controller('ItemDialogController', function($scope, taOptions, hotkeys, ItemService, ItemDialogService, ItemDialogShortcuts){
+
+  ItemDialogShortcuts.setup($scope);
 
   $scope.isDialogVisible = function(){
     return ItemDialogService.dialogVisible();
@@ -15,24 +17,5 @@ app.controller('ItemDialogController', function($scope, taOptions, hotkeys, Item
       console.log('toggleBacklog');
     }
   };
-
-  taOptions.keyMappings.push({
-    commandKeyCode: 'esc', testForKey: function(event){
-      if(event.keyCode === 27 ){
-        $scope.dialog.hideDialog();
-        return true;
-      }
-    }
-  });
-
-  hotkeys.bindTo($scope)
-    .add({
-      combo: 'esc',
-      description: 'Closes the item overlay',
-      allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-      callback: function () {
-        ItemDialogService.toggle(false);
-      }
-    });
 
 });

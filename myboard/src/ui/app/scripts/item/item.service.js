@@ -1,16 +1,14 @@
 var app = angular.module('MyBoard');
-app.factory('ItemService', function(){
+app.factory('ItemService', function () {
 
-  var makeNewItem = function(){
+  var makeNewItem = function () {
     return {
-      title:'',
-      text:'',
+      title: '',
+      text: '',
       state: 0
     };
   };
-
   return {
     makeNewItem: makeNewItem
   }
-
 });

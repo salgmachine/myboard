@@ -46,12 +46,13 @@
       </div>
       <div class="pull-left">
         <text-angular ng-model="item.text"></text-angular>
-        <input type="text" placeholder="Name" class="form-control item-data-input item-data-input-name">
-        <input type="text" placeholder="Aufwand" class="form-control item-data-input item-data-input-number">
-        <input type="text" placeholder="Komplexität" class="form-control item-data-input item-data-input-number">
+        <input type="text" placeholder="Name" ng-model="item.name" class="form-control item-data-input item-data-input-name">
+        <input type="text" placeholder="Aufwand" ng-model="item.effort" class="form-control item-data-input item-data-input-number">
+        <input type="text" placeholder="Komplexität" ng-model="item.complexity" class="form-control item-data-input item-data-input-number">
       </div>
     </div>
   </div>
+  {{$parent.item}}
 </div>
 <div class="container">
   <div class="header">
@@ -179,6 +180,7 @@
 <script src="scripts/item/item.service.js"></script>
 <script src="scripts/item/dialog/item.dialog.controller.js"></script>
 <script src="scripts/item/dialog/item.dialog.service.js"></script>
+<script src="scripts/item/dialog/dialog.shortcut.service.js"></script>
 <!-- endbuild -->
 
 </body>
