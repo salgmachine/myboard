@@ -67,6 +67,10 @@ body {
   height: 700px;
 }
 
+.ng-invalid {
+  background: beige;
+}
+
 
 
 /* Responsive: Portrait tablets and up */

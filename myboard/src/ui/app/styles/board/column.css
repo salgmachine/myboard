@@ -3,8 +3,13 @@
   border-right: 1px dotted lightgrey;
 }
 
-.board-column-title {
+.board-column-list {
+  padding: 0;
+  list-style: none;
+}
 
+.board-column-title {
+  height: 50px;
 }
 
 .board-column-add-btn {

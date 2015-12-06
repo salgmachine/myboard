@@ -12,13 +12,13 @@
 
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="/bower_components/angular-hotkeys/build/hotkeys.css" />
-  <link rel="stylesheet" href="/bower_components/textAngular/dist/textAngular.css" />
-  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" href="/bower_components/angular-hotkeys/build/hotkeys.css"/>
+  <link rel="stylesheet" href="/bower_components/textAngular/dist/textAngular.css"/>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/board/column.css">
   <link rel="stylesheet" href="styles/board/dialog/item.data.css">
@@ -37,19 +37,27 @@
 <![endif]-->
 
 <div id="item-dialog"
-     ng-class="{'dialog-parent':isDialogVisible(), 'dialog-parent dialog-parent-hidden':!isDialogVisible()}" ng-controller="ItemDialogController">
+     ng-class="{'dialog-parent':isDialogVisible(), 'dialog-parent dialog-parent-hidden':!isDialogVisible()}"
+     ng-controller="ItemDialogController">
   <div class="dialog-content row">
     <div class="col-lg-offset-3 col-lg-6 col-lg-offset-3">
-      <div class="pull-left item-data-btn-bar" >
-        <button type="button" class="item-data-btn item-data-btn-top btn btn-default"><span class="glyphicon glyphicon-ok"></span></button>
-        <button type="button" class="item-data-btn btn btn-default" ng-click="dialog.hideDialog()"><span class="glyphicon glyphicon-remove"></span></button>
-      </div>
-      <div class="pull-left">
-        <text-angular ng-model="item.text"></text-angular>
-        <input type="text" placeholder="Name" ng-model="item.name" class="form-control item-data-input item-data-input-name">
-        <input type="text" placeholder="Aufwand" ng-model="item.effort" class="form-control item-data-input item-data-input-number">
-        <input type="text" placeholder="Komplexität" ng-model="item.complexity" class="form-control item-data-input item-data-input-number">
-      </div>
+      <form name="itemCreateForm" ng-submit="onSave()">
+        <div class="pull-left item-data-btn-bar">
+          <button type="submit" class="item-data-btn item-data-btn-top btn btn-default"><span
+            class="glyphicon glyphicon-ok"></span></button>
+          <button type="button" class="item-data-btn btn btn-default" ng-click="dialog.hideDialog()"><span
+            class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="pull-left">
+          <text-angular ng-model="item.text"></text-angular>
+          <input type="text" required placeholder="Title" autofocus ng-model="item.title"
+                 class="form-control item-data-input item-data-input-name">
+          <input type="number" min="0" placeholder="Effort" ng-model="item.effort"
+                 class="form-control item-data-input item-data-input-number">
+          <input type="number" min="0" placeholder="Complexity" ng-model="item.complexity"
+                 class="form-control item-data-input item-data-input-number">
+        </div>
+      </form>
     </div>
   </div>
   {{$parent.item}}
@@ -80,29 +88,41 @@
       <p><a class="btn btn-lg btn-success" href="#">Splendid! <span class="glyphicon glyphicon-ok"></span></a></p>
     </div>
   -->
+  {{board}}
   <div class="row marketing">
-    <div class="col-lg-2 board-column" ng-show="board.backlog.config.visible">
-      <div class="board-column-title"><p>Backlog</p>
-        <button type="button" class="btn btn-primary">Add</button>
+    <div class="col-lg-6 board-column" ng-show="board.backlog.config.visible">
+      <div class="board-column-title"><p class="pull-left">Backlog<br/><span>($: 12 , h:12)</span></p>
+        <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="showDialog('backlog')">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
       </div>
       <ul>
         <li ng-repeat="itm in board.backlog.items"></li>
       </ul>
     </div>
 
-    <div class="col-lg-3 board-column">
+    <div class="board-column" ng-class="{'col-lg-4': !board.backlog.config.visible, 'col-lg-6': board.backlog.config.visible}"
+         ng-hide="board.release.config.visible">
       <div class="board-column-title"><p class="pull-left">Todo<br/><span>($: 12 , h:12)</span></p>
         <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="showDialog('todo')">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
-      <ul>
-        <li ng-repeat="itm in board.todo.items"></li>
+      <ul class="board-column-list">
+        <li ng-repeat="itm in board.todo.items">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <span class="panel-titleD">{{itm.title}}</span>
+            </div>
+            <div class="panel-body">
+              <span ng-bind-html="itm.text"></span>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
 
-    <div class="board-column"
-         ng-class="{'col-lg-3': board.release.config.visible || board.backlog.config.visible, 'col-lg-6': !board.release.config.visible && !board.backlog.config.visible}">
+    <div class="col-lg-4 board-column" ng-hide="board.release.config.visible || board.backlog.config.visible">
       <div class="board-column-title"><p class="pull-left">Busy<br/><span>($: 12 , h:12)</span></p>
         <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="showDialog('busy')">
           <span class="glyphicon glyphicon-plus"></span>
@@ -113,7 +133,7 @@
       </ul>
     </div>
 
-    <div class="col-lg-3 board-column">
+    <div class="board-column" ng-class="{'col-lg-4': !board.release.config.visible, 'col-lg-6': board.release.config.visible}" ng-hide="board.backlog.config.visible">
       <div class="board-column-title"><p class="pull-left">Done<br/><span>($: 12 , h:12)</span></p>
       </div>
       <ul>
@@ -121,7 +141,7 @@
       </ul>
     </div>
 
-    <div class="col-lg-1 board-column" ng-show="board.release.config.visible">
+    <div class="col-lg-6 board-column" ng-show="board.release.config.visible">
       <div class="board-column-title"><p>Released</p>
       </div>
       <ul>

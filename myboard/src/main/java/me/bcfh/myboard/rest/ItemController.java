@@ -44,8 +44,8 @@ public class ItemController {
     }
 
     @Transactional
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> create(Item item) {
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> create(@RequestBody Item item) {
 	if (item == null)
 	    return new ResponseEntity<ErrorDto>(new ErrorDto("Data missing"), HttpStatus.BAD_REQUEST);
 	item = itemRepo.saveAndFlush(item);

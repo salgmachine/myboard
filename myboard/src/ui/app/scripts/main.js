@@ -7,14 +7,14 @@ app.config(function($provide, $httpProvider){
   $httpProvider.defaults.headers.get = {'Content-Type' : 'application/json;charset=UTF-8', 'Accept' :'application/json;charset=UTF-8' };
   $httpProvider.interceptors.push('myInterceptor');
 
-  $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) { // $delegate is the taOptions we are decorating
+  $provide.decorator('taOptions', ['$timeout', 'taRegisterTool', '$delegate', function($timeout, taRegisterTool, taOptions) { // $delegate is the taOptions we are decorating
     taOptions.toolbar = [
       [ 'h2', 'h4', 'h6', 'p', 'pre', 'quote'],
       ['bold', 'italics', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
       [ 'indent', 'outdent'],
       ['html', 'insertImage','insertLink']
     ];
-    console.log(JSON.stringify(taOptions.keyMappings));
+
     return taOptions;
   }]);
 

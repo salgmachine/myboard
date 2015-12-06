@@ -3,6 +3,12 @@ var app = angular.module('MyBoard');
 app.controller('BoardController', function ($scope, Items, ItemService, BoardService, ItemDialogService) {
   $scope.board = BoardService.board;
 
+  $scope.toggleColumn = function (column) {
+    var state = column.config.visible;
+    column.config.visible = !state;
+    console.log('toggle col ' + JSON.stringify(column));
+  };
+
   $scope.showDialog = function(col) {
     console.log('show dialog .. ');
     $scope.item = ItemService.makeNewItem();
