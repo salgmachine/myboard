@@ -14,6 +14,7 @@ app.config(function($provide, $httpProvider){
       [ 'indent', 'outdent'],
       ['html', 'insertImage','insertLink']
     ];
+    console.log(JSON.stringify(taOptions.keyMappings));
     return taOptions;
   }]);
 
