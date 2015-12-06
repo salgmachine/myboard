@@ -2,9 +2,7 @@ var app = angular.module('MyBoard');
 app.controller('ItemDialogController', function($scope, taOptions, hotkeys, ItemService, ItemDialogService){
 
   $scope.isDialogVisible = function(){
-    var result = ItemDialogService.dialogVisible();
-    console.log('dialog visible: ' + result);
-    return result;
+    return ItemDialogService.dialogVisible();
   };
 
   $scope.dialog = {

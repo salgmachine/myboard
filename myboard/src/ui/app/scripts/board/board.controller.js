@@ -1,6 +1,6 @@
 var app = angular.module('MyBoard');
 
-app.controller('MainController', function ($scope, Items, ItemService, BoardService, ItemDialogService) {
+app.controller('BoardController', function ($scope, Items, ItemService, BoardService, ItemDialogService) {
   $scope.board = BoardService.board;
 
   $scope.showDialog = function(col) {
@@ -26,5 +26,4 @@ app.controller('MainController', function ($scope, Items, ItemService, BoardServ
       }
     }
   });
-  $scope.test = 'asd';
 });
