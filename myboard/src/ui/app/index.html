@@ -12,15 +12,17 @@
 
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
-  <link rel="stylesheet" href="/bower_components/angular-hotkeys/build/hotkeys.css"/>
-  <link rel="stylesheet" href="/bower_components/textAngular/dist/textAngular.css"/>
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="/bower_components/angular-hotkeys/build/hotkeys.css" />
+  <link rel="stylesheet" href="/bower_components/textAngular/dist/textAngular.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
   <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/board/column.css">
+  <link rel="stylesheet" href="styles/board/board.css">
+  <link rel="stylesheet" href="styles/board/item.css">
   <link rel="stylesheet" href="styles/board/dialog/item.data.css">
   <link rel="stylesheet" href="styles/board/dialog/item.editor.css">
   <link rel="stylesheet" href="styles/board/dialog/global.css">
@@ -66,13 +68,13 @@
   <div class="header">
     <ul class="nav nav-pills pull-right">
       <li>
-        <button type="button" class="btn btn-default" ng-class="{'btn-primary':board.backlog.config.visible}"
-                ng-click="toggleColumn(board.backlog)">Backlog
+        <button type="button" class="btn btn-default" ng-class="{'btn-primary':board().backlog.config.visible}"
+                ng-click="toggleColumn(board().backlog)">Backlog
         </button>
       </li>
       <li>
-        <button type="button" class="btn btn-default" ng-class="{'btn-primary':board.release.config.visible}"
-                ng-click="toggleColumn(board.release)">Release
+        <button type="button" class="btn btn-default" ng-class="{'btn-primary':board().release.config.visible}"
+                ng-click="toggleColumn(board().release)">Release
         </button>
       </li>
     </ul>
@@ -87,65 +89,73 @@
 
       <p><a class="btn btn-lg btn-success" href="#">Splendid! <span class="glyphicon glyphicon-ok"></span></a></p>
     </div>
+
+  {{board()}}
   -->
-  {{board}}
-  <div class="row marketing">
-    <div class="col-lg-6 board-column" ng-show="board.backlog.config.visible">
+  <div class="row">
+    <div class="col-lg-6 board-column" ng-show="board().backlog.config.visible">
       <div class="board-column-title"><p class="pull-left">Backlog<br/><span>($: 12 , h:12)</span></p>
         <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="showDialog('backlog')">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
-      <ul>
-        <li ng-repeat="itm in board.backlog.items"></li>
-      </ul>
+      <div class="board-column-list-wrapper">
+        <ul>
+          <li ng-repeat="itm in board().backlog.items"></li>
+        </ul>
+      </div>
     </div>
 
-    <div class="board-column" ng-class="{'col-lg-4': !board.backlog.config.visible, 'col-lg-6': board.backlog.config.visible}"
-         ng-hide="board.release.config.visible">
+    <div class="board-column"
+         ng-class="{'col-lg-4': !board().backlog.config.visible, 'col-lg-6': board().backlog.config.visible}"
+         ng-hide="board().release.config.visible">
       <div class="board-column-title"><p class="pull-left">Todo<br/><span>($: 12 , h:12)</span></p>
         <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="showDialog('todo')">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
-      <ul class="board-column-list">
-        <li ng-repeat="itm in board.todo.items">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <span class="panel-titleD">{{itm.title}}</span>
+      <div class="board-column-list-wrapper">
+        <ul class="board-column-list">
+          <li ng-repeat="itm in board().todo.items">
+            <div class="item-panel panel panel-default">
+              <div class="panel-heading">
+                <span class="panel-titleD">{{itm.title}}</span>
+              </div>
+              <div class="panel-body">
+                <span ng-bind-html="itm.text"></span>
+              </div>
             </div>
-            <div class="panel-body">
-              <span ng-bind-html="itm.text"></span>
-            </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div class="col-lg-4 board-column" ng-hide="board.release.config.visible || board.backlog.config.visible">
+    <div class="col-lg-4 board-column" ng-hide="board().release.config.visible || board().backlog.config.visible">
       <div class="board-column-title"><p class="pull-left">Busy<br/><span>($: 12 , h:12)</span></p>
         <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="showDialog('busy')">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
       <ul>
-        <li ng-repeat="itm in board.busy.items"></li>
+        <li ng-repeat="itm in board().busy.items"></li>
       </ul>
     </div>
 
-    <div class="board-column" ng-class="{'col-lg-4': !board.release.config.visible, 'col-lg-6': board.release.config.visible}" ng-hide="board.backlog.config.visible">
+    <div class="board-column"
+         ng-class="{'col-lg-4': !board().release.config.visible, 'col-lg-6': board().release.config.visible}"
+         ng-hide="board().backlog.config.visible">
       <div class="board-column-title"><p class="pull-left">Done<br/><span>($: 12 , h:12)</span></p>
       </div>
       <ul>
-        <li ng-repeat="itm in board.done.items"></li>
+        <li ng-repeat="itm in board().done.items"></li>
       </ul>
     </div>
 
-    <div class="col-lg-6 board-column" ng-show="board.release.config.visible">
+    <div class="col-lg-6 board-column" ng-show="board().release.config.visible">
       <div class="board-column-title"><p>Released</p>
       </div>
       <ul>
-        <li ng-repeat="itm in board.release.items"></li>
+        <li ng-repeat="itm in board().release.items"></li>
       </ul>
     </div>
   </div>
@@ -195,6 +205,7 @@
 <script src='/bower_components/textAngular/dist/textAngular.min.js'></script>
 <script src="scripts/main.js"></script>
 <script src="scripts/board/board.service.js"></script>
+<script src="scripts/board/column-scroll.js"></script>
 <script src="scripts/board/board.controller.js"></script>
 <script src="scripts/item/item.resource.js"></script>
 <script src="scripts/item/item.service.js"></script>

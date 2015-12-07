@@ -1,3 +1,8 @@
+
+.board-column-list-scrolled {
+  box-shadow: 0 6px 4px -4px rgba(0,0,0,.3);
+}
+
 .board-column {
   height: 700px;
   border-right: 1px dotted lightgrey;
@@ -6,15 +11,24 @@
 .board-column-list {
   padding: 0;
   list-style: none;
+  padding-right: 5px;
 }
 
 .board-column-title {
   height: 50px;
+  margin-bottom: 10px;
+}
+.board-column-title.shadow {
+  -webkit-box-shadow: 0px 14px 22px -10px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 14px 22px -10px rgba(0,0,0,0.75);
+  box-shadow: 0px 14px 22px -10px rgba(0,0,0,0.75);
 }
 
 .board-column-add-btn {
   background-color: #c8c8c8;
   border-color: #c8c8c8;
+  margin-top: 7px;
+  margin-right: 5px;
 }
 
 .board-column-add-btn:hover {
@@ -22,7 +36,12 @@
   border-color: #b4b3b3;
 }
 
-.board-column-add-btn.btn.btn-primary:active:focus{
+.board-column-add-btn.btn.btn-primary:active:focus {
   background-color: #dedede;
   border-color: #dedede;
+}
+
+.board-column-list-wrapper {
+  height: 700px;
+  overflow-y: scroll
 }

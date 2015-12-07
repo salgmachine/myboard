@@ -11,20 +11,8 @@ app.factory('ItemDialogService', function(){
     return dialogVisible;
   }
 
-  var showDialog = function(mode, item){
+  var showDialog = function(){
     toggle(true);
-    switch (mode) {
-      case 'backlog':
-        item.state = 0;
-        break;
-      case 'todo':
-        item.state = 1;
-        break;
-      case 'busy':
-        item.state = 2;
-      default:
-        break;
-    }
   };
 
   return {
