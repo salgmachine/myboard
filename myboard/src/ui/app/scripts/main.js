@@ -9,8 +9,10 @@ app.config(function($provide, $httpProvider){
 
   $provide.decorator('taOptions', ['$timeout', 'taRegisterTool', '$delegate', function($timeout, taRegisterTool, taOptions) { // $delegate is the taOptions we are decorating
     taOptions.toolbar = [
-      [ 'h2', 'h4', 'h6', 'p', 'pre', 'quote'],
-      ['bold', 'italics', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
+      [ 'h2', 'h4', 'h6'],
+      ['p', 'pre', 'quote'],
+      ['bold', 'italics', 'strikeThrough'],
+      ['ul', 'ol', 'clear'],
       [ 'indent', 'outdent'],
       ['html', 'insertImage','insertLink']
     ];

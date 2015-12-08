@@ -1,0 +1,181 @@
+@media screen
+and (min-width: 320px) {
+  .item-data-btn-bar {
+    width: 100%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .item-data-btn-top {
+    margin-bottom: 0px;
+  }
+
+  .item-data-btn {
+    width: 49%;
+  }
+
+  .item-data-editor-wrapper {
+    width: 100%;
+  }
+
+  .item-data-editor-wrapper .ta-toolbar.btn-toolbar {
+    margin-left: 0px;
+    display: none;
+  }
+
+  .btn-toolbar > .btn, .btn-toolbar > .btn-group, .btn-toolbar > .input-group {
+    margin-left: 0px;
+  }
+
+  .btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group {
+    float: inherit;
+  }
+
+  .btn-group, .btn-group-vertical {
+    display: inline;
+    position: relative;
+    vertical-align: middle;
+  }
+
+  .ta-toolbar.btn-toolbar .btn-group .btn {
+    margin-right: 5px;
+    margin-bottom: 3px;
+  }
+
+  .dialog-content {
+    margin-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .ta-editor.ta-html, .ta-scroll-window.form-control {
+    width: 100%;
+    height: 300px !important;
+    min-height: 100px;
+  }
+
+  .item-data-input-name {
+    width: 100%;
+  }
+
+  .item-data-input-number {
+    width: 49.3%;
+  }
+}
+
+@media screen
+and (min-width: 360px) {
+  .item-data-btn-bar {
+    width: 100%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .item-data-btn-top {
+    margin-bottom: 0px;
+  }
+
+  .item-data-btn {
+    width: 49%;
+  }
+
+  .item-data-editor-wrapper {
+    width: 100%;
+  }
+
+  .item-data-editor-wrapper .ta-toolbar.btn-toolbar {
+    margin-left: 0px;
+    display: none;
+  }
+
+  .btn-toolbar > .btn, .btn-toolbar > .btn-group, .btn-toolbar > .input-group {
+    margin-left: 0px;
+  }
+
+  .btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group {
+    float: inherit;
+  }
+
+  .btn-group, .btn-group-vertical {
+    display: inline;
+    position: relative;
+    vertical-align: middle;
+  }
+
+  .ta-toolbar.btn-toolbar .btn-group .btn {
+    margin-right: 5px;
+    margin-bottom: 3px;
+  }
+
+  .dialog-content {
+    margin-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .ta-editor.ta-html, .ta-scroll-window.form-control {
+    width: 100%;
+    height: 300px !important;
+    min-height: 100px;
+  }
+
+  .item-data-input-name {
+    width: 100%;
+  }
+
+  .item-data-input-number {
+    width: 49.3%;
+  }
+}
+
+@media screen
+and (min-width: 786px) {
+
+  div.pull-left.item-data-editor-wrapper text-angular.ng-isolate-scope.ta-root div.ng-scope.ng-isolate-scope.ta-toolbar.btn-toolbar {
+    margin-left: 0px;
+    display:block;
+  }
+  .item-data-btn-bar {
+    width: 60px;
+    margin-right: 5px;
+    margin-top: 79px;
+  }
+  .item-data-btn-top {
+    margin-bottom: 5px;
+  }
+  .item-data-editor-wrapper {
+    width:700px;
+  }
+  .item-data-input-number {
+    width: 49%;
+  }
+  .item-data-btn {
+    width: 100%;
+  }
+
+}
+@media screen
+and (min-width: 991px) {
+
+  div.pull-left.item-data-editor-wrapper text-angular.ng-isolate-scope.ta-root div.ng-scope.ng-isolate-scope.ta-toolbar.btn-toolbar {
+    margin-left: 0px;
+    display:block;
+  }
+  .item-data-btn-bar {
+    width: 60px;
+    margin-right: 5px;
+    margin-top: 79px;
+  }
+  .item-data-btn-top {
+    margin-bottom: 5px;
+  }
+  .item-data-editor-wrapper {
+    width:90%;
+  }
+  .item-data-input-number {
+    width: 317px;
+  }
+  .item-data-btn {
+    width: 100%;
+  }
+}
