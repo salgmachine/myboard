@@ -1,2 +1,14 @@
-.item-panel{
+.item-edit-btn {
+  margin-top: 5px;
+  margin-right: 7px;
+}
+
+.item-panel {
+  box-shadow: 0;
+  transition: box-shadow 100ms;
+  cursor: pointer;
+}
+
+.item-panel:hover {
+  box-shadow: 0 0 3px #515151;;
 }

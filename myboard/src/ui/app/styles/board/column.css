@@ -16,9 +16,12 @@
 
 .board-column-title {
   height: 50px;
-  margin-bottom: 10px;
 }
-.board-column-title.shadow {
+.board-column-title.shadowdiv {
+  height: 25px;
+}
+
+.board-column-title.shadowdiv.shadow {
   -webkit-box-shadow: 0px 14px 22px -10px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 14px 22px -10px rgba(0,0,0,0.75);
   box-shadow: 0px 14px 22px -10px rgba(0,0,0,0.75);
@@ -43,5 +46,62 @@
 
 .board-column-list-wrapper {
   height: 700px;
-  overflow-y: scroll
+  overflow-y: scroll;
+  margin-top: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+}
+
+
+@media screen and (max-height: 479px) {
+  .board-column-list {
+    height: 330px;
+  }
+  .board-column {
+    margin-top: 30px;
+    height: 330px;
+  }
+  .board-column-list-wrapper  {
+    height: 300px;
+  }
+}
+
+@media screen and (max-height: 785px) {
+  .board-column {
+    margin-top: 50px;
+    height: 430px;
+  }
+  .board-column-list {
+    height: 430px;
+  }
+  .board-column-list-wrapper  {
+    height: 400px;
+  }
+}
+
+@media screen and (min-height: 786px) {
+  .board-column {
+    margin-top: 70px;
+    height: 616px;
+  }
+  .board-column-list {
+
+    height: 616px;
+  }
+  .board-column-list-wrapper  {
+    height: 616px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .board-column {
+    margin-top: 70px;
+    height: 295px;
+  }
+  .board-column-list-wrapper  {
+    height: 295px;
+  }
+  .board-column.board-column-todo {
+    margin-top: 5px;
+  }
 }

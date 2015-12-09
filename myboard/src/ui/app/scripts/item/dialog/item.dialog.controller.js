@@ -17,6 +17,7 @@ app.controller('ItemDialogController', function ($http, $scope, taOptions, hotke
     var newItemToStore = $scope.$parent.item;
     Items.save(newItemToStore, function(data) {
       if(data) {
+        data.drag = true;
         BoardService.board().todo.items.push(data);
         $scope.dialog.hideDialog();
       }

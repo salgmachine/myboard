@@ -1,14 +1,19 @@
 var app = angular.module('MyBoard');
 app.factory('ItemService', function () {
 
-  var makeNewItem = function (state) {
 
+  var constructNewItem = function()  {
     var item = {
       title: '',
       text: '',
-      state: 0
+      state: 0,
+      drag: true
     };
 
+    return item;
+  };
+  var makeNewItem = function (state) {
+    var item = constructNewItem();
     switch (state) {
       case 'backlog':
         item.state = 0;

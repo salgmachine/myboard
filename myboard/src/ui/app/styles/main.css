@@ -21,7 +21,6 @@ body {
 
 /* Custom page header */
 .header {
-  border-bottom: 1px solid #e5e5e5;
 }
 
 /* Make the masthead heading the same height as the navigation */
@@ -71,10 +70,42 @@ body {
   background: beige;
 }
 
-
+.header-image {
+  background-image: url("/images/MyKanbanr.png");
+  width: 250px;
+  height: 50px;
+  background-repeat: no-repeat;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
+  .my-btn {
+    background-color: #93C899;
+    border-color: #93C899;
+  }
+
+  .my-btn:hover {
+    background-color: #74B278;
+    border-color: #74B278;
+  }
+
+  .my-btn:active:focus {
+    background-color: #619365;
+    border-color: #619365;
+  }
+
+  .panel-heading {
+    height: 50px;
+    padding: 0;
+  }
+
+  .panel-title.panel-title-text {
+    padding-top: 13px;
+    padding-left: 5px;
+    display: block;
+    float:left;
+  }
+
   .container {
     width: 90%;
     height: 800px;

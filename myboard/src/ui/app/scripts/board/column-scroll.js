@@ -1,5 +1,5 @@
 
-var  tb = $('.board-column-title');
+var  tb = $('.board-column-title.shadowdiv');
 var tbs = "shadow";
 
 $('.board-column-list-wrapper').scroll(function() {

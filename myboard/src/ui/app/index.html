@@ -12,9 +12,9 @@
 
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="/bower_components/angular-hotkeys/build/hotkeys.css" />
-  <link rel="stylesheet" href="/bower_components/textAngular/dist/textAngular.css" />
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" href="/bower_components/angular-hotkeys/build/hotkeys.css"/>
+  <link rel="stylesheet" href="/bower_components/textAngular/dist/textAngular.css"/>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
@@ -80,7 +80,7 @@
         </button>
       </li>
     </ul>
-    <h3 class="text-muted">MyKanban - Poor man's kanban board</h3>
+    <div class="header-image"></div>
   </div>
   <!--
 
@@ -95,12 +95,14 @@
   {{board()}}
   -->
   <div class="row">
-    <div class="col-lg-6 board-column" ng-show="board().backlog.config.visible">
+    <div class="col-lg-6 board-column board-column-backlog" ng-show="board().backlog.config.visible">
       <div class="board-column-title"><p class="pull-left">Backlog<br/><span>($: 12 , h:12)</span></p>
-        <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="showDialog('backlog')">
+        <button type="button" class="my-btn btn btn-primary pull-right" ng-click="showDialog('backlog')">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
+
+
       <div class="board-column-list-wrapper">
         <ul>
           <li ng-repeat="itm in board().backlog.items"></li>
@@ -108,20 +110,95 @@
       </div>
     </div>
 
-    <div class="board-column"
+    <div class="board-column board-column-todo"
          ng-class="{'col-lg-4': !board().backlog.config.visible, 'col-lg-6': board().backlog.config.visible}"
          ng-hide="board().release.config.visible">
       <div class="board-column-title"><p class="pull-left">Todo<br/><span>($: 12 , h:12)</span></p>
-        <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="showDialog('todo')">
+        <button type="button" class="my-btn btn btn-primary pull-right" ng-click="showDialog('todo')">
           <span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
+      <div class="board-column-title shadowdiv"></div>
       <div class="board-column-list-wrapper">
-        <ul class="board-column-list">
-          <li ng-repeat="itm in board().todo.items">
-            <div class="item-panel panel panel-default">
+        <ul class="board-column-list" ui-on-drop="onDrop($event,$data,board().todo.items)"
+            drag-enter-class="on-drag-enter-custom">
+          <li ui-draggable="true" drag="itm"
+              on-drop-success="dropSuccessHandler($event,$index,board().todo.items)"
+              ng-repeat="itm in board().todo.items track by $index">
+            <div class="item-panel panel panel-default panel-draggable">
               <div class="panel-heading">
-                <span class="panel-titleD">{{itm.title}}</span>
+                <span class="panel-title panel-title-text">{{itm.title}}</span>
+
+                <div class="pull-right">
+                  <button class="my-btn item-edit-btn btn btn-primary" type="button"
+                          ng-click="showDialog(itm)"><span
+                    class="glyphicon glyphicon-pencil"></span></button>
+                </div>
+              </div>
+              <div class="panel-body">
+                <span ng-bind-html="itm.text"></span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="board-column board-column-busy col-lg-4"
+         ng-hide="board().backlog.config.visible || board().release.config.visible">
+      <div class="board-column-title"><p class="pull-left">Busy<br/><span>($: 12 , h:12)</span></p>
+        <button type="button" class="my-btn btn btn-primary pull-right" ng-click="showDialog('busy')">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
+      <div class="board-column-title shadowdiv"></div>
+      <div class="board-column-list-wrapper">
+        <ul class="board-column-list" ui-on-drop="onDrop($event,$data,board().busy.items)"
+            drag-enter-class="on-drag-enter-custom">
+          <li ui-draggable="true" drag="itm"
+              on-drop-success="dropSuccessHandler($event,$index,board().busy.items)"
+              ng-repeat="itm in board().busy.items track by $index">
+            <div class="item-panel panel panel-default panel-draggable">
+              <div class="panel-heading">
+                <span class="panel-title panel-title-text">{{itm.title}}</span>
+
+                <div class="pull-right">
+                  <button class="my-btn item-edit-btn btn btn-primary" type="button"
+                          ng-click="showDialog(itm)"><span
+                    class="glyphicon glyphicon-pencil"></span></button>
+                </div>
+              </div>
+              <div class="panel-body">
+                <span ng-bind-html="itm.text"></span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="board-column board-column-done"
+         ng-class="{'col-lg-4': !board().backlog.config.visible, '': board().backlog.config.visible}"
+         ng-hide="board().backlog.config.visible">
+      <div class="board-column-title"><p class="pull-left">Done<br/><span>($: 12 , h:12)</span></p>
+        <button type="button" class="my-btn btn btn-primary pull-right" ng-click="showDialog('done')">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
+      <div class="board-column-title shadowdiv"></div>
+      <div class="board-column-list-wrapper">
+        <ul class="board-column-list" ui-on-drop="onDrop($event,$data,board().done.items)"
+            drag-enter-class="on-drag-enter-custom">
+          <li ui-draggable="true" drag="itm"
+              on-drop-success="dropSuccessHandler($event,$index,board().done.items)"
+              ng-repeat="itm in board().done.items track by $index">
+            <div class="item-panel panel panel-default panel-draggable">
+              <div class="panel-heading">
+                <span class="panel-title panel-title-text">{{itm.title}}</span>
+
+                <div class="pull-right">
+                  <button class="my-btn item-edit-btn btn btn-primary" type="button"
+                          ng-click="showDialog(itm)"><span
+                    class="glyphicon glyphicon-pencil"></span></button>
+                </div>
               </div>
               <div class="panel-body">
                 <span ng-bind-html="itm.text"></span>
@@ -132,18 +209,7 @@
       </div>
     </div>
 
-    <div class="col-lg-4 board-column" ng-hide="board().release.config.visible || board().backlog.config.visible">
-      <div class="board-column-title"><p class="pull-left">Busy<br/><span>($: 12 , h:12)</span></p>
-        <button type="button" class="board-column-add-btn btn btn-primary pull-right" ng-click="showDialog('busy')">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button>
-      </div>
-      <ul>
-        <li ng-repeat="itm in board().busy.items"></li>
-      </ul>
-    </div>
-
-    <div class="board-column"
+    <div class="board-column board-column-done"
          ng-class="{'col-lg-4': !board().release.config.visible, 'col-lg-6': board().release.config.visible}"
          ng-hide="board().backlog.config.visible">
       <div class="board-column-title"><p class="pull-left">Done<br/><span>($: 12 , h:12)</span></p>
@@ -153,7 +219,7 @@
       </ul>
     </div>
 
-    <div class="col-lg-6 board-column" ng-show="board().release.config.visible">
+    <div class="col-lg-6 board-column board-column-release" ng-show="board().release.config.visible">
       <div class="board-column-title"><p>Released</p>
       </div>
       <ul>
@@ -177,6 +243,8 @@
 <script src="/bower_components/textAngular/dist/textAngular.js"></script>
 <script src="/bower_components/textAngular/dist/textAngular-sanitize.js"></script>
 <script src="/bower_components/textAngular/dist/textAngularSetup.js"></script>
+<script src="/bower_components/jquery-ui/jquery-ui.js"></script>
+<script src="/bower_components/angular-dragdrop/src/angular-dragdrop.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -201,6 +269,8 @@
 
 <script src="/bower_components/angular-resource/angular-resource.js"></script>
 <script src="/bower_components/angular-hotkeys/build/hotkeys.min.js"></script>
+<script src="/bower_components/angular-native-dragdrop/draganddrop.js"></script>
+
 
 <script src='/bower_components/textAngular/dist/textAngular-rangy.min.js'></script>
 <script src='/bower_components/textAngular/dist/textAngular-sanitize.min.js'></script>
