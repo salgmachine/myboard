@@ -1,5 +1,13 @@
-var app = angular.module('MyBoard', ['ngResource', 'cfp.hotkeys', 'textAngular', 'ang-drag-drop']);
-app.config(function($provide, $httpProvider){
+var app = angular.module('MyBoard', ['ngResource', 'cfp.hotkeys', 'textAngular', 'ang-drag-drop', 'pascalprecht.translate']);
+app.config(function($translateProvider, $provide, $httpProvider){
+
+
+  $translateProvider.useSanitizeValueStrategy('sanitize');
+  $translateProvider.useStaticFilesLoader({
+    prefix: 'i18n/',
+    suffix: '.json'
+  });
+  $translateProvider.preferredLanguage('en_us');
 
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
   $httpProvider.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';

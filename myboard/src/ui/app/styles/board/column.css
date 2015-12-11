@@ -82,7 +82,7 @@
 
 @media screen and (min-height: 786px) {
   .board-column {
-    margin-top: 70px;
+    margin-top: 20px;
     height: 616px;
   }
   .board-column-list {

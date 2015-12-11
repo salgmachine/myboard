@@ -1,0 +1,14 @@
+{
+  "global": {
+    "test": "test"
+  },
+  "board": {
+    "columns": {
+      "todo":"todo",
+      "backlog":"backlog",
+      "busy":"busy",
+      "done":"done",
+      "release":"release"
+    }
+  }
+}
