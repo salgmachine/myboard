@@ -1,6 +1,6 @@
 var app = angular.module('MyBoard');
 
-app.controller('BoardController', function ($scope, $window, Items, ItemService, BoardService, ItemDialogService) {
+app.controller('BoardController', function ($rootScope, $scope, $window, Items, ItemService, BoardService, ItemDialogService) {
 
 
   $scope.toggleColumn = function (state) {
@@ -8,8 +8,15 @@ app.controller('BoardController', function ($scope, $window, Items, ItemService,
   };
 
   $scope.showDialog = function (col) {
-    $scope.item = ItemService.makeNewItem(col);
-    ItemDialogService.showDialog();
+    if(col.hasOwnProperty('id')){
+      $scope.item = col;
+    }else{
+      $scope.item = ItemService.makeNewItem(col);
+    }
+
+    ItemDialogService.showDialog($scope.item);
+    console.log('firing item select event');
+    $rootScope.$broadcast('item-select');
   };
   $scope.dropSuccessHandler = function ($event, index, state) {
     var column = BoardService.getColumn(state);

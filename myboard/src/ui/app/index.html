@@ -54,18 +54,18 @@
             class="glyphicon glyphicon-remove"></span></button>
         </div>
         <div class="pull-left item-data-editor-wrapper">
-          <text-angular ng-model="item.text"></text-angular>
-          <input type="text" required placeholder="Title" autofocus ng-model="item.title"
+          <text-angular ng-model="selectedItem.text"></text-angular>
+          <input type="text" required placeholder="Title" autofocus ng-model="selectedItem.title"
                  class="form-control item-data-input item-data-input-name">
-          <input type="number" min="0" placeholder="Effort" ng-model="item.effort"
+          <input type="number" min="0" placeholder="Effort" ng-model="selectedItem.effort"
                  class="form-control item-data-input item-data-input-number">
-          <input type="number" min="0" placeholder="Complexity" ng-model="item.complexity"
+          <input type="number" min="0" placeholder="Complexity" ng-model="selectedItem.complexity"
                  class="form-control item-data-input item-data-input-number">
         </div>
       </form>
     </div>
   </div>
-  {{$parent.item}}
+  {{selectedItem}}
 </div>
 <div class="container">
   <div class="header">
