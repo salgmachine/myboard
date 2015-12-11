@@ -3,6 +3,10 @@
     "test": "test"
   },
   "board": {
+    "info": {
+      "storypoints": "storypoints",
+      "hours":"hours"
+    },
     "columns": {
       "todo":"todo",
       "backlog":"backlog",

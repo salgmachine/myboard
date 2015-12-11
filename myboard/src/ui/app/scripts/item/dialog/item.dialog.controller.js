@@ -18,7 +18,8 @@ app.controller('ItemDialogController', function ($http, $scope, taOptions, hotke
     Items.save(newItemToStore, function(data) {
       if(data) {
         data.drag = true;
-        BoardService.board().todo.items.push(data);
+        BoardService.getColumn(newItemToStore.state).column.items.push(data);
+        /*BoardService.board().todo.items.push(data);*/
         $scope.dialog.hideDialog();
       }
     }, function(data, headers) {

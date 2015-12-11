@@ -20,6 +20,7 @@
   <!-- build:css(.tmp) styles/main.css -->
   <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components/buttons/my.btn.css">
   <link rel="stylesheet" href="styles/board/column.css">
   <link rel="stylesheet" href="styles/board/board.css">
   <link rel="stylesheet" href="styles/board/item.css">
@@ -70,7 +71,7 @@
   <div class="header">
     <ul class="nav nav-pills pull-right">
       <li ng-repeat="state in getAvailableStates()">
-        <button type="button" class="btn btn-default" ng-class="{'btn-primary':getColumn(state).column.config.visible}"
+        <button type="button" class="my-btn btn btn-default" ng-class="{'inactive':getColumn(state).column.config.visible === false}"
                 ng-click="toggleColumn(state)">{{getColumn(state).column.title|translate}}
         </button>
       </li>
@@ -94,7 +95,7 @@
   <div class="row">
     <div class="board-column board-column-backlog {{boardWidth()}}" ng-repeat="state in getAvailableStates()"
          ng-show="getColumn(state).column.config.visible">
-      <div class="board-column-title"><p class="pull-left">{{getColumn(state).column.title|translate}}<br/><span>($: 12 , h:12)</span>
+      <div class="board-column-title"><p class="pull-left">{{getColumn(state).column.title|translate}} ({{getColumn(state).column.items.length}})<br/><span class="board-column-info">{{'board.info.hours'|translate}}: 12 , {{'board.info.storypoints'|translate}}: 12</span>
       </p>
         <button type="button" class="my-btn btn btn-primary pull-right"
                 ng-click="showDialog(getColumn(state).column.config.state)">

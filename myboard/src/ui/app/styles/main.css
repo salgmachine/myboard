@@ -79,20 +79,7 @@ body {
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  .my-btn {
-    background-color: #93C899;
-    border-color: #93C899;
-  }
 
-  .my-btn:hover {
-    background-color: #74B278;
-    border-color: #74B278;
-  }
-
-  .my-btn:active:focus {
-    background-color: #619365;
-    border-color: #619365;
-  }
 
   .panel-heading {
     height: 50px;

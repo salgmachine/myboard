@@ -63,4 +63,8 @@ app.controller('BoardController', function ($scope, $window, Items, ItemService,
   $scope.getColumn = function(col){
     return BoardService.getColumn(col);
   };
+
+  angular.element(document).ready(function () {
+    setupScrollShadow();
+  });
 });
