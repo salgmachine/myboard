@@ -8,8 +8,8 @@
     "angular-resource": "~1.4.8",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.6.0",
     "textAngular": "~1.4.6",
-    "angular-dragdrop": "~1.0.12",
-    "angular-translate": "~2.8.1"
+    "angular-translate": "~2.8.1",
+    "ngDraggable": "~0.1.8"
   },
   "overrides": {
     "bootstrap": {

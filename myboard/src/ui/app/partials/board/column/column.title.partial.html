@@ -1,0 +1,12 @@
+<div class="board-column-title"><p class="pull-left">{{getColumn(state).column.title|translate}}
+  ({{getColumn(state).column.items.length}})<br/><span class="board-column-info">{{'board.info.hours'|translate}}: 12 , {{'board.info.storypoints'|translate}}: 12</span>
+</p>
+  <button type="button" class="my-btn btn btn-primary pull-right"
+          ng-click="showDialog(getColumn(state).column.config.state)">
+    <span class="glyphicon glyphicon-plus"></span>
+  </button>
+
+  <button type="button" class="my-btn btn btn-default pull-right" ng-click="showColumnDlg(state)">
+    <span class="glyphicon glyphicon-align-justify"></span>
+  </button>
+</div>

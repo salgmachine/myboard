@@ -1,4 +1,4 @@
-var app = angular.module('MyBoard', ['ngResource', 'cfp.hotkeys', 'textAngular', 'ang-drag-drop', 'pascalprecht.translate']);
+var app = angular.module('MyBoard', ['ngResource', 'cfp.hotkeys', 'textAngular', 'pascalprecht.translate', 'ngDraggable']);
 app.config(function($translateProvider, $provide, $httpProvider){
 
 

@@ -1,0 +1,27 @@
+<div id="item-dialog"
+     ng-class="{'dialog-parent':isDialogVisible(), 'dialog-parent dialog-parent-hidden':!isDialogVisible()}"
+     ng-controller="ItemDialogController">
+  <div class="dialog-content row">
+    <div class="col-sm-12 col-md-offset-1 col-md-10 col-md-offset-1 col-lg-offset-1 col-lg-10 col-lg-offset-1">
+      <form name="itemCreateForm" ng-submit="onSave()">
+        <div class="pull-left item-data-btn-bar">
+          <button type="submit" class="item-data-btn item-data-btn-top btn btn-default"><span
+            class="glyphicon glyphicon-ok"></span></button>
+          <button type="button" class="item-data-btn btn btn-default" ng-click="dialog.hideDialog()"><span
+            class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="pull-left item-data-editor-wrapper">
+          <text-angular ng-model="selectedItem.text"></text-angular>
+          <input type="text" required placeholder="Title" autofocus ng-model="selectedItem.title"
+                 class="form-control item-data-input item-data-input-name">
+          <input type="number" min="0" placeholder="Effort" ng-model="selectedItem.effort"
+                 class="form-control item-data-input item-data-input-number">
+          <input type="number" min="0" placeholder="Complexity" ng-model="selectedItem.complexity"
+                 class="form-control item-data-input item-data-input-number">
+          <input type="text" placeholder="Editor" ng-model="selectedItem.editor"
+                 class="form-control item-data-input item-data-input-number">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

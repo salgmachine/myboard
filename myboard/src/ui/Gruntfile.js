@@ -15,8 +15,6 @@ module.exports = function (grunt) {
 
   var proxyMiddleware = require('http-proxy-middleware');
 
-  var proxy = proxyMiddleware('/items', {target: 'http://localhost:8080', changeOrigin: true});
-
   // Automatically load required grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin'
@@ -75,7 +73,10 @@ module.exports = function (grunt) {
           ],
           port: 9000,
           server: {
-            middleware: [proxy],
+            middleware: [proxyMiddleware(['/items'], {
+              target: 'http://localhost:8080',
+              changeOrigin: true
+            }), proxyMiddleware(['/boards'], {target: 'http://localhost:8080', changeOrigin: true})],
             baseDir: ['.tmp', config.app],
             routes: {
               '/bower_components': './bower_components'

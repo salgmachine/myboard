@@ -1,6 +1,7 @@
 .my-btn {
   background-color: #93C899;
   border-color: #93C899;
+  margin: 2px;
 }
 
 .my-btn.inactive {

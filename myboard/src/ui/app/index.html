@@ -12,9 +12,9 @@
 
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
-  <link rel="stylesheet" href="/bower_components/angular-hotkeys/build/hotkeys.css"/>
-  <link rel="stylesheet" href="/bower_components/textAngular/dist/textAngular.css"/>
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="/bower_components/angular-hotkeys/build/hotkeys.css" />
+  <link rel="stylesheet" href="/bower_components/textAngular/dist/textAngular.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="styles/board/column.css">
   <link rel="stylesheet" href="styles/board/board.css">
   <link rel="stylesheet" href="styles/board/item.css">
+  <link rel="stylesheet" href="styles/user/new.user.css">
   <link rel="stylesheet" href="styles/board/dialog/item.data.css">
   <link rel="stylesheet" href="styles/board/dialog/item.editor.css">
   <link rel="stylesheet" href="styles/board/dialog/global.css">
@@ -35,244 +36,62 @@
   <!-- endbuild -->
   <script src="/bower_components/angular/angular.js"></script>
 </head>
-<body ng-controller="BoardController">
+<body>
 <!--[if lt IE 10]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
   your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div id="item-dialog"
-     ng-class="{'dialog-parent':isDialogVisible(), 'dialog-parent dialog-parent-hidden':!isDialogVisible()}"
-     ng-controller="ItemDialogController">
-  <div class="dialog-content row">
-    <div class="col-sm-12 col-md-offset-1 col-md-10 col-md-offset-1 col-lg-offset-1 col-lg-10 col-lg-offset-1">
-      <form name="itemCreateForm" ng-submit="onSave()">
-        <div class="pull-left item-data-btn-bar">
-          <button type="submit" class="item-data-btn item-data-btn-top btn btn-default"><span
-            class="glyphicon glyphicon-ok"></span></button>
-          <button type="button" class="item-data-btn btn btn-default" ng-click="dialog.hideDialog()"><span
-            class="glyphicon glyphicon-remove"></span></button>
-        </div>
-        <div class="pull-left item-data-editor-wrapper">
-          <text-angular ng-model="selectedItem.text"></text-angular>
-          <input type="text" required placeholder="Title" autofocus ng-model="selectedItem.title"
-                 class="form-control item-data-input item-data-input-name">
-          <input type="number" min="0" placeholder="Effort" ng-model="selectedItem.effort"
-                 class="form-control item-data-input item-data-input-number">
-          <input type="number" min="0" placeholder="Complexity" ng-model="selectedItem.complexity"
-                 class="form-control item-data-input item-data-input-number">
-        </div>
-      </form>
+<style>
+  *{
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+  }
+  [ng-drag]{
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  [ng-drag]{
+    cursor: move;
+  }
+  [ng-drag].drag-over{
+   /* border:solid 1px red;*/
+  }
+  [ng-drag].dragging{
+    opacity: 0.5;
+    /*position: absolute;*/
+    z-index: 1000;
+  }
+</style>
+<div class="board" ng-controller="BoardController">
+  <ng-include src="'partials/board/dialog/item.detail.partial.html'"></ng-include>
+
+
+  <div class="container">
+    <ng-include src="'partials/board/board.header.partial.html'"></ng-include>
+
+    <div class="row">
+
+      <div class="board-column board-column-header {{boardWidth()}}" ng-show="getColumn(state).column.config.visible"
+           ng-repeat="state in getAvailableStates()">
+        <ng-include src="'partials/board/column/column.title.partial.html'"></ng-include>
+        <ng-include src="'partials/board/column/column.head.partial.html'"></ng-include>
+
+      </div>
+      <div class="board-column board-column-{{state}} {{boardWidth()}}"
+           ng-drop="true"
+           ng-drop-success="onDropComplete($data,$event, state)"
+           ng-repeat="state in getAvailableStates()"
+           ng-show="getColumn(state).column.config.visible">
+
+
+        <ng-include src="'partials/board/column/column.partial.html'"></ng-include>
+      </div>
     </div>
   </div>
-  {{selectedItem}}
 </div>
-<div class="container">
-  <div class="header">
-    <ul class="nav nav-pills pull-right">
-      <li ng-repeat="state in getAvailableStates()">
-        <button type="button" class="my-btn btn btn-default" ng-class="{'inactive':getColumn(state).column.config.visible === false}"
-                ng-click="toggleColumn(state)">{{getColumn(state).column.title|translate}}
-        </button>
-      </li>
-    </ul>
-    <div class="header-image"></div>
-    <div translate="global.test">
-    </div>
-  </div>
-  <!--
-
-    <div class="jumbotron">
-      <h1>'Allo, 'Allo!</h1>
-
-      <p class="lead">Always a pleasure scaffolding your apps.</p>
-
-      <p><a class="btn btn-lg btn-success" href="#">Splendid! <span class="glyphicon glyphicon-ok"></span></a></p>
-    </div>
-
-  {{board()}}
-  -->
-  <div class="row">
-    <div class="board-column board-column-backlog {{boardWidth()}}" ng-repeat="state in getAvailableStates()"
-         ng-show="getColumn(state).column.config.visible">
-      <div class="board-column-title"><p class="pull-left">{{getColumn(state).column.title|translate}} ({{getColumn(state).column.items.length}})<br/><span class="board-column-info">{{'board.info.hours'|translate}}: 12 , {{'board.info.storypoints'|translate}}: 12</span>
-      </p>
-        <button type="button" class="my-btn btn btn-primary pull-right"
-                ng-click="showDialog(getColumn(state).column.config.state)">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button>
-      </div>
-      <div class="board-column-title shadowdiv"></div>
-      <div class="board-column-list-wrapper">
-        <ul class="board-column-list" ui-on-drop="onDrop($event,$data,state)"
-            drag-enter-class="on-drag-enter-custom">
-          <li ui-draggable="true" drag="itm"
-              on-drop-success="dropSuccessHandler($event,$index,state)"
-              ng-repeat="itm in getColumn(state).column.items track by $index">
-            <div class="item-panel panel panel-default panel-draggable">
-              <div class="panel-heading">
-                <span class="panel-title panel-title-text">{{itm.title}}</span>
-
-                <div class="pull-right">
-                  <button class="my-btn item-edit-btn btn btn-primary" type="button"
-                          ng-click="showDialog(itm)"><span
-                    class="glyphicon glyphicon-pencil"></span></button>
-                </div>
-              </div>
-              <div class="panel-body">
-                <span ng-bind-html="itm.text"></span>
-                {{itm.state}}
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-
-  <!--<div class="board-column board-column-todo"
-       ng-class="{'col-lg-4': !board().backlog.config.visible, 'col-lg-6': board().backlog.config.visible}"
-       ng-hide="board().release.config.visible">
-    <div class="board-column-title"><p class="pull-left">Todo<br/><span>($: 12 , h:12)</span></p>
-      <button type="button" class="my-btn btn btn-primary pull-right" ng-click="showDialog(board().todo.config.state)">
-        <span class="glyphicon glyphicon-plus"></span>
-      </button>
-    </div>
-    <div class="board-column-title shadowdiv"></div>
-    <div class="board-column-list-wrapper">
-      <ul class="board-column-list" ui-on-drop="onDrop($event,$data,board().todo)"
-          drag-enter-class="on-drag-enter-custom">
-        <li ui-draggable="true" drag="itm"
-            on-drop-success="dropSuccessHandler($event,$index,board().todo.items)"
-            ng-repeat="itm in board().todo.items track by $index">
-          <div class="item-panel panel panel-default panel-draggable">
-            <div class="panel-heading">
-              <span class="panel-title panel-title-text">{{itm.title}}</span>
-
-              <div class="pull-right">
-                <button class="my-btn item-edit-btn btn btn-primary" type="button"
-                        ng-click="showDialog(itm)"><span
-                  class="glyphicon glyphicon-pencil"></span></button>
-              </div>
-            </div>
-            <div class="panel-body">
-              <span ng-bind-html="itm.text"></span>
-              {{itm.state}}
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="board-column board-column-busy col-lg-4"
-       ng-hide="board().backlog.config.visible || board().release.config.visible">
-    <div class="board-column-title"><p class="pull-left">Busy<br/><span>($: 12 , h:12)</span></p>
-      <button type="button" class="my-btn btn btn-primary pull-right" ng-click="showDialog(board().busy.config.state)">
-        <span class="glyphicon glyphicon-plus"></span>
-      </button>
-    </div>
-    <div class="board-column-title shadowdiv"></div>
-    <div class="board-column-list-wrapper">
-      <ul class="board-column-list" ui-on-drop="onDrop($event,$data,board().busy)"
-          drag-enter-class="on-drag-enter-custom">
-        <li ui-draggable="true" drag="itm"
-            on-drop-success="dropSuccessHandler($event,$index,board().busy.items)"
-            ng-repeat="itm in board().busy.items track by $index">
-          <div class="item-panel panel panel-default panel-draggable">
-            <div class="panel-heading">
-              <span class="panel-title panel-title-text">{{itm.title}}</span>
-
-              <div class="pull-right">
-                <button class="my-btn item-edit-btn btn btn-primary" type="button"
-                        ng-click="showDialog(itm)"><span
-                  class="glyphicon glyphicon-pencil"></span></button>
-              </div>
-            </div>
-            <div class="panel-body">
-              <span ng-bind-html="itm.text"></span>
-              {{itm.state}}
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="board-column board-column-done"
-       ng-class="{'col-lg-4': !board().release.config.visible, 'col-lg-6': board().release.config.visible}"
-       ng-hide="board().backlog.config.visible">
-    <div class="board-column-title"><p class="pull-left">Done<br/><span>($: 12 , h:12)</span></p>
-      <button type="button" class="my-btn btn btn-primary pull-right" ng-click="showDialog(board().done.config.state)">
-        <span class="glyphicon glyphicon-plus"></span>
-      </button>
-    </div>
-    <div class="board-column-title shadowdiv"></div>
-    <div class="board-column-list-wrapper">
-      <ul class="board-column-list" ui-on-drop="onDrop($event,$data,board().done)"
-          drag-enter-class="on-drag-enter-custom">
-        <li ui-draggable="true" drag="itm"
-            on-drop-success="dropSuccessHandler($event,$index,board().done.items)"
-            ng-repeat="itm in board().done.items track by $index">
-          <div class="item-panel panel panel-default panel-draggable">
-            <div class="panel-heading">
-              <span class="panel-title panel-title-text">{{itm.title}}</span>
-
-              <div class="pull-right">
-                <button class="my-btn item-edit-btn btn btn-primary" type="button"
-                        ng-click="showDialog(itm)"><span
-                  class="glyphicon glyphicon-pencil"></span></button>
-              </div>
-            </div>
-            <div class="panel-body">
-              <span ng-bind-html="itm.text"></span>
-              {{itm.state}}
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-
-  <div class="col-lg-6 board-column board-column-release" ng-show="board().release.config.visible">
-    <div class="board-column board-column-done"
-         ng-show="board().release.config.visible">
-      <div class="board-column-title"><p class="pull-left">Release<br/><span>($: 12 , h:12)</span></p>
-        <button type="button" class="my-btn btn btn-primary pull-right" ng-click="showDialog(board().release.config.state)">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button>
-      </div>
-      <div class="board-column-title shadowdiv"></div>
-      <div class="board-column-list-wrapper">
-        <ul class="board-column-list" ui-on-drop="onDrop($event,$data,board().release)"
-            drag-enter-class="on-drag-enter-custom">
-          <li ui-draggable="true" drag="itm"
-              on-drop-success="dropSuccessHandler($event,$index,board().release.items)"
-              ng-repeat="itm in board().release.items track by $index">
-            <div class="item-panel panel panel-default panel-draggable">
-              <div class="panel-heading">
-                <span class="panel-title panel-title-text">{{itm.title}}</span>
-
-                <div class="pull-right">
-                  <button class="my-btn item-edit-btn btn btn-primary" type="button"
-                          ng-click="showDialog(itm)"><span
-                    class="glyphicon glyphicon-pencil"></span></button>
-                </div>
-              </div>
-              <div class="panel-body">
-                <span ng-bind-html="itm.text"></span>
-                {{itm.state}}
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-</div>-->
-
-</div>
-</div>
-
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
 <script src="/bower_components/jquery/dist/jquery.js"></script>
@@ -286,8 +105,7 @@
 <script src="/bower_components/textAngular/dist/textAngular.js"></script>
 <script src="/bower_components/textAngular/dist/textAngular-sanitize.js"></script>
 <script src="/bower_components/textAngular/dist/textAngularSetup.js"></script>
-<script src="/bower_components/jquery-ui/jquery-ui.js"></script>
-<script src="/bower_components/angular-dragdrop/src/angular-dragdrop.js"></script>
+<script src="/bower_components/ngDraggable/ngDraggable.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -312,7 +130,6 @@
 
 <script src="/bower_components/angular-resource/angular-resource.js"></script>
 <script src="/bower_components/angular-hotkeys/build/hotkeys.min.js"></script>
-<script src="/bower_components/angular-native-dragdrop/draganddrop.js"></script>
 <script src="/bower_components/angular-translate/angular-translate.js"></script>
 <script
   src="/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
@@ -322,7 +139,10 @@
 <script src='/bower_components/textAngular/dist/textAngular-sanitize.min.js'></script>
 <script src='/bower_components/textAngular/dist/textAngular.min.js'></script>
 <script src="scripts/main.js"></script>
-<script src="scripts/board/board.service.js"></script>
+<script src="scripts/global/services/localstorage.service.js"></script>
+<script src="scripts/board/services/board.service.js"></script>
+<script src="scripts/board/services/board.shortcut.service.js"></script>
+<script src="scripts/board/services/board.resource.js"></script>
 <script src="scripts/board/column-scroll.js"></script>
 <script src="scripts/board/board.controller.js"></script>
 <script src="scripts/item/item.resource.js"></script>
@@ -330,6 +150,7 @@
 <script src="scripts/item/dialog/item.dialog.controller.js"></script>
 <script src="scripts/item/dialog/item.dialog.service.js"></script>
 <script src="scripts/item/dialog/dialog.shortcut.service.js"></script>
+<script src="scripts/user/new.user.controller.js"></script>
 <!-- endbuild -->
 
 </body>

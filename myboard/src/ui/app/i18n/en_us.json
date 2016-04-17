@@ -3,6 +3,12 @@
     "test": "test"
   },
   "board": {
+    "config": {
+      "limit": {
+        "work": "Max hours (sum)",
+        "effort": "Max complexity (sum)"
+      }
+    },
     "info": {
       "storypoints": "storypoints",
       "hours":"hours"

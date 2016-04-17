@@ -1,0 +1,13 @@
+<div class="header">
+  <ul class="nav nav-pills pull-right">
+    <li ng-repeat="state in getAvailableStates()">
+      <button type="button" class="my-btn btn btn-default"
+              ng-class="{'inactive':getColumn(state).column.config.visible === false}"
+              ng-click="toggleColumn(state)">{{getColumn(state).column.title|translate}}
+      </button>
+    </li>
+  </ul>
+  <div class="header-image"></div>
+  <div translate="global.test">
+  </div>
+</div>

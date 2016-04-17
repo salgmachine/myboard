@@ -12,3 +12,7 @@
 .item-panel:hover {
   box-shadow: 0 0 3px #515151;;
 }
+.item-panel-wrapper
+{
+  position: relative;
+}
