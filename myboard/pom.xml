@@ -6,7 +6,7 @@
 	<groupId>me.bcfh</groupId>
 	<artifactId>myboard</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>myboard</name>
 	<description>poor man's kanban board</description>
@@ -94,4 +94,10 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<modules>
+		<module>myboard-core</module>
+		<module>myboard-item</module>
+		<module>myboard-board</module>
+		<module>myboard-cloud</module>
+	</modules>
 </project>
