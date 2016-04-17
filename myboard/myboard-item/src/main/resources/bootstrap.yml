@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: items
+  cloud:
+    config:
+      uri: ${SPRING_CONFIG_URI:http://localhost:8888}
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 2
